@@ -1,6 +1,6 @@
 # 寻声觅迹后端
 
-这是“寻声觅迹 ECHO TRAIL”黑客松MVP的后端服务。第二阶段包含匿名身份、歌曲、歌词、省份、SQLite数据库和基础测试，暂不包含票根生成。
+这是“寻声觅迹 ECHO TRAIL”黑客松MVP的后端服务。目前已完成匿名身份、歌曲、歌词、省份、播放记录和三类票根核心闭环。
 
 ## 1. 环境要求
 
@@ -80,7 +80,7 @@ python -m pytest -q
 - `migrations/`：数据库结构变更历史。
 - `tests/`：自动测试。
 
-## 5. 第二阶段接口
+## 5. 当前接口
 
 - `POST /api/v1/sessions/anonymous`
 - `GET /api/v1/users/me`
@@ -89,6 +89,11 @@ python -m pytest -q
 - `GET /api/v1/songs/{song_id}/lyrics`
 - `GET /api/v1/provinces`
 - `GET /api/v1/provinces/{province_code}`
+- `GET /api/v1/provinces/{province_code}/song-recommendations`
+- `POST /api/v1/play-events`
+- `POST /api/v1/tickets`
+- `GET /api/v1/tickets`
+- `GET /api/v1/tickets/{ticket_id}`
 - `GET /api/v1/health`
 
 受保护接口需在请求头中携带：
@@ -96,3 +101,23 @@ python -m pytest -q
 ```text
 Authorization: Bearer <access_token>
 ```
+
+## 6. 票根调用顺序
+
+1. 调用`POST /sessions/anonymous`取得访问令牌。
+2. 携带令牌调用`GET /songs`取得歌曲编号。
+3. 调用`GET /songs/{song_id}/lyrics`取得可选歌词编号。
+4. 用户点击播放时调用`POST /play-events`取得播放记录编号。
+5. 调用`POST /tickets`并提交歌曲、播放记录、省份、票种和编辑内容。
+6. 调用`GET /tickets`查看个人票根列表。
+7. 调用`GET /provinces`查看个人地图点亮状态。
+
+## 7. 第三阶段业务规则
+
+- 播放记录24小时内有效，且必须属于当前匿名用户和当前歌曲。
+- 广东、陕西可创建票根，其他省份只提供占位信息。
+- 烫银票必须提供照片地址；烫金和原纸票不能提供照片地址。
+- 一张票根最多选择三个固定心情标签。
+- `idempotency_key`用于防止用户重复点击生成两张相同票根。
+- 票根保存歌名、歌手、封面和歌词快照，避免原始歌曲变化影响历史票根。
+- 本阶段只接收已有照片地址，真实图片上传在第五阶段实现。

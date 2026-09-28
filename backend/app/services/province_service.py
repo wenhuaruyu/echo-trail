@@ -1,10 +1,13 @@
-from typing import Dict
+from typing import Dict, Optional
 
 from app.models.province import Province
 
 
-def serialize_province(province: Province) -> Dict[str, object]:
-    return {
+def serialize_province(
+    province: Province,
+    stats: Optional[Dict[str, object]] = None,
+) -> Dict[str, object]:
+    payload = {
         "code": province.code,
         "name": province.name,
         "slogan": province.slogan,
@@ -14,4 +17,6 @@ def serialize_province(province: Province) -> Dict[str, object]:
         "collected_type_count": 0,
         "ticket_count": 0,
     }
-
+    if stats:
+        payload.update(stats)
+    return payload
