@@ -1,4 +1,7 @@
 import uuid
+from io import BytesIO
+
+from PIL import Image
 
 
 def create_identity(client):
@@ -31,6 +34,18 @@ def record_play(client, headers, song_id):
     return response.json()["data"]["play_event_id"]
 
 
+def upload_test_photo(client, headers):
+    content = BytesIO()
+    Image.new("RGB", (40, 30), color=(34, 85, 68)).save(content, format="PNG")
+    response = client.post(
+        "/api/v1/uploads/ticket-photo",
+        headers=headers,
+        files={"file": ("trip.png", content.getvalue(), "image/png")},
+    )
+    assert response.status_code == 201
+    return response.json()["data"]["photo_url"]
+
+
 def ticket_payload(song, lyric, play_event_id, ticket_type="gold", province_code="guangdong"):
     return {
         "song_id": song["id"],
@@ -41,7 +56,7 @@ def ticket_payload(song, lyric, play_event_id, ticket_type="gold", province_code
         "location_text": "广州·珠江边" if province_code == "guangdong" else "西安·城墙边",
         "mood_tags": ["在路上"],
         "lyric_line_id": lyric["id"],
-        "photo_url": "https://example.com/demo-ticket-photo.jpg" if ticket_type == "silver" else None,
+        "photo_url": None,
         "idempotency_key": str(uuid.uuid4()),
     }
 
@@ -97,6 +112,8 @@ def test_three_ticket_types_complete_province(client):
 
     for ticket_type in ("gold", "silver", "paper"):
         payload = ticket_payload(song, lyric, event_id, ticket_type, "shaanxi")
+        if ticket_type == "silver":
+            payload["photo_url"] = upload_test_photo(client, headers)
         response = client.post("/api/v1/tickets", headers=headers, json=payload)
         assert response.status_code == 201
 
@@ -195,4 +212,3 @@ def test_silver_recommendations_are_demo_data(client, auth_headers):
     assert data["is_demo_data"] is True
     assert data["items"][0]["id"] == song["id"]
     assert len(data["items"]) == 3
-

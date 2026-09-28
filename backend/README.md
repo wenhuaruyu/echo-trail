@@ -92,6 +92,7 @@ python -m pytest -q
 - `GET /api/v1/provinces/{province_code}/song-recommendations`
 - `GET /api/v1/provinces/{province_code}/emotion-map`
 - `GET /api/v1/resonance?song_id={song_id}&province_code={province_code}`
+- `POST /api/v1/uploads/ticket-photo`
 - `POST /api/v1/play-events`
 - `POST /api/v1/tickets`
 - `GET /api/v1/tickets`
@@ -133,3 +134,14 @@ Authorization: Bearer <access_token>
 - 心情分布由演示基数叠加真实票根心情，并保证百分比合计为100%。
 - 创建票根的响应会直接包含最新共鸣人数。
 - 所有群体接口只返回汇总数量，不返回其他用户身份、地点、照片或票根内容。
+
+## 9. 图片上传
+
+- 支持JPEG、PNG和WebP，原始文件最大5MB、最大2000万像素。
+- 图片自动纠正方向，最长边缩小到2048像素，并统一转换为WebP。
+- 重新编码会移除EXIF及GPS元数据。
+- 文件名由后端随机生成，上传目录不会提交到Git。
+- 烫银票只接受本服务上传并且仍然存在的图片地址。
+- 本地图片存储适用于开发；第六阶段部署时再决定是否切换对象存储。
+
+前端未来接入时参考：[docs/frontend-integration.md](docs/frontend-integration.md)。

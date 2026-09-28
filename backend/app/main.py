@@ -4,11 +4,13 @@ from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.api.v1.router import api_router
 from app.core.config import settings
 from app.core.errors import AppError
 from app.core.responses import error_response
+from app.services.storage_service import photo_storage
 
 
 app = FastAPI(
@@ -65,4 +67,4 @@ async def unexpected_error_handler(request: Request, exc: Exception):
 
 
 app.include_router(api_router, prefix=settings.api_v1_prefix)
-
+app.mount("/media/ticket-photos", StaticFiles(directory=photo_storage.directory), name="ticket-photos")

@@ -16,6 +16,7 @@ from app.repositories.ticket_repository import (
     ticket_number_exists,
 )
 from app.schemas.ticket import TicketCreate
+from app.services.storage_service import photo_storage
 
 
 TICKET_TYPES = {"gold", "silver", "paper"}
@@ -118,6 +119,8 @@ def create_ticket(
 
     if data.ticket_type == "silver" and not data.photo_url:
         raise AppError(422, "TICKET_PHOTO_REQUIRED", "烫银票必须添加照片")
+    if data.ticket_type == "silver" and data.photo_url and not photo_storage.owns_photo_url(data.photo_url):
+        raise AppError(422, "TICKET_PHOTO_INVALID", "烫银票照片必须由本服务上传")
     if data.ticket_type != "silver" and data.photo_url:
         raise AppError(422, "TICKET_PHOTO_NOT_ALLOWED", "当前票根类型不能添加照片")
 
@@ -151,4 +154,3 @@ def create_ticket(
     db.refresh(ticket)
     stats = province_ticket_stats(db, user.id, province.code)
     return ticket, stats, True
-

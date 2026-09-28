@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.v1.routes import health, play_events, provinces, resonance, sessions, songs, tickets, users
+from app.api.v1.routes import health, play_events, provinces, resonance, sessions, songs, tickets, uploads, users
 
 
 api_router = APIRouter()
@@ -12,3 +12,4 @@ api_router.include_router(provinces.router, prefix="/provinces", tags=["省份"]
 api_router.include_router(play_events.router, prefix="/play-events", tags=["播放记录"])
 api_router.include_router(tickets.router, prefix="/tickets", tags=["票根"])
 api_router.include_router(resonance.router, prefix="/resonance", tags=["共鸣统计"])
+api_router.include_router(uploads.router, prefix="/uploads", tags=["图片上传"])
