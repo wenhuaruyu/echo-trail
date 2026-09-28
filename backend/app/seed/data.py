@@ -116,3 +116,42 @@ SONGS = [
     },
 ]
 
+
+RESONANCE_BASELINES = {
+    "guangdong": {
+        "hai-kuo-tian-kong": 1283,
+        "rainy-night-hong-kong": 936,
+        "guangzhou-arcade": 742,
+        "neon-face": 518,
+    },
+    "shaanxi": {
+        "changan-road": 864,
+        "south-of-qinling": 623,
+        "loess-ballad": 709,
+        "east-of-xian": 415,
+    },
+}
+
+
+MUSIC_INSIGHTS = {
+    "guangdong": [
+        ("weekly_most_lit", "本周最多点亮", "hai-kuo-tian-kong"),
+        ("daily_theme", "今日地区主题曲", "rainy-night-hong-kong"),
+        ("rainy_most_lit", "雨天最常点亮", "guangzhou-arcade"),
+        ("late_night_most_lit", "深夜最常点亮", "neon-face"),
+        ("traveler_favorite", "旅行者首选", "hai-kuo-tian-kong"),
+    ],
+    "shaanxi": [
+        ("weekly_most_lit", "本周最多点亮", "changan-road"),
+        ("daily_theme", "今日地区主题曲", "loess-ballad"),
+        ("rainy_most_lit", "雨天最常点亮", "south-of-qinling"),
+        ("late_night_most_lit", "深夜最常点亮", "east-of-xian"),
+        ("traveler_favorite", "旅行者首选", "changan-road"),
+    ],
+}
+
+
+MOOD_BASELINES = {
+    "guangdong": {"怀旧": 38, "孤独": 22, "自由": 18, "在路上": 14, "治愈": 8},
+    "shaanxi": {"宁静": 32, "感动": 25, "在路上": 20, "自由": 15, "热血": 8},
+}

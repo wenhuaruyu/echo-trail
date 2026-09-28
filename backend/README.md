@@ -90,6 +90,8 @@ python -m pytest -q
 - `GET /api/v1/provinces`
 - `GET /api/v1/provinces/{province_code}`
 - `GET /api/v1/provinces/{province_code}/song-recommendations`
+- `GET /api/v1/provinces/{province_code}/emotion-map`
+- `GET /api/v1/resonance?song_id={song_id}&province_code={province_code}`
 - `POST /api/v1/play-events`
 - `POST /api/v1/tickets`
 - `GET /api/v1/tickets`
@@ -121,3 +123,13 @@ Authorization: Bearer <access_token>
 - `idempotency_key`用于防止用户重复点击生成两张相同票根。
 - 票根保存歌名、歌手、封面和歌词快照，避免原始歌曲变化影响历史票根。
 - 本阶段只接收已有照片地址，真实图片上传在第五阶段实现。
+
+## 8. 地图与共鸣统计
+
+- 共鸣人数按照匿名用户去重，同一用户制作多张相同歌曲票根只计一位。
+- 展示人数由演示基数加真实新增用户数构成，并返回`is_demo_data`标记。
+- 广东和陕西各返回本周最多点亮、今日地区主题曲、雨天、深夜和旅行者首选五类内容。
+- 本周同一歌曲真实票根达到三张时，可以替换预置的“本周最多点亮”。
+- 心情分布由演示基数叠加真实票根心情，并保证百分比合计为100%。
+- 创建票根的响应会直接包含最新共鸣人数。
+- 所有群体接口只返回汇总数量，不返回其他用户身份、地点、照片或票根内容。

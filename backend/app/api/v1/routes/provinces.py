@@ -10,6 +10,7 @@ from app.repositories.province_repository import get_province, list_provinces
 from app.repositories.song_repository import get_song, list_songs
 from app.repositories.ticket_repository import province_ticket_stats, user_ticket_summary
 from app.services.song_service import serialize_song
+from app.services.statistics_service import get_emotion_map
 from app.services.province_service import serialize_province
 
 
@@ -81,3 +82,14 @@ def get_song_recommendations(
         },
         current_request_id,
     )
+
+
+@router.get("/{province_code}/emotion-map")
+def get_province_emotion_map(
+    province_code: str,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+    current_request_id: str = Depends(request_id),
+):
+    del user
+    return success_response(get_emotion_map(db, province_code), current_request_id)

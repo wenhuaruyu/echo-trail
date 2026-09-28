@@ -9,6 +9,7 @@ from app.models.user import User
 from app.repositories.ticket_repository import get_user_ticket, list_user_tickets
 from app.schemas.ticket import TicketCreate
 from app.services.ticket_service import create_ticket, serialize_ticket
+from app.services.statistics_service import get_resonance
 
 
 router = APIRouter()
@@ -26,6 +27,7 @@ def create_user_ticket(
         {
             "ticket": serialize_ticket(ticket),
             "province_lighting": province_lighting,
+            "resonance": get_resonance(db, ticket.province_code, ticket.song_id),
             "created": created,
         },
         current_request_id,
@@ -76,4 +78,3 @@ def get_ticket_detail(
     if ticket is None:
         raise AppError(404, "TICKET_NOT_FOUND", "票根不存在")
     return success_response(serialize_ticket(ticket), current_request_id)
-
