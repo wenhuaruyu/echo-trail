@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680">
+  <rect width="1200" height="680" fill="#f7f4ee"/>
+  <style>.t{font-family:Arial,'PingFang SC';fill:#222}.s{stroke:#333;stroke-width:2;rx:24}.line{stroke:#444;stroke-width:2;fill:none;marker-end:url(#a)}</style>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#444"/></marker></defs>
+  <text class="t" x="600" y="48" text-anchor="middle" font-size="28" font-weight="700">省份点亮状态机</text>
+  <circle cx="600" cy="92" r="18" fill="#333"/><path class="line" d="M600 110V150"/>
+  <rect class="s" x="500" y="150" width="200" height="64" fill="#ddd"/><text class="t" x="600" y="189" text-anchor="middle" font-size="20">未点亮</text>
+  <path class="line" d="M500 182H230V270"/><path class="line" d="M600 214V270"/><path class="line" d="M700 182H970V270"/>
+  <rect class="s" x="100" y="270" width="260" height="70" fill="#f3e5cf"/><text class="t" x="230" y="312" text-anchor="middle" font-size="20">原纸点亮</text>
+  <rect class="s" x="470" y="270" width="260" height="70" fill="#edf0f4"/><text class="t" x="600" y="312" text-anchor="middle" font-size="20">银色点亮</text>
+  <rect class="s" x="840" y="270" width="260" height="70" fill="#fff0a8"/><text class="t" x="970" y="312" text-anchor="middle" font-size="20">金色点亮</text>
+  <path class="line" d="M230 340V410H600V440"/><path class="line" d="M600 340V440"/><path class="line" d="M970 340V410H600V440"/>
+  <rect class="s" x="450" y="440" width="300" height="70" fill="#dce8df"/><text class="t" x="600" y="470" text-anchor="middle" font-size="20">混合点亮</text><text class="t" x="600" y="495" text-anchor="middle" font-size="16">已收集两类票根</text>
+  <path class="line" d="M600 510V560"/><rect class="s" x="430" y="560" width="340" height="80" fill="#d7b8f3"/><text class="t" x="600" y="593" text-anchor="middle" font-size="20" font-weight="700">完整点亮</text><text class="t" x="600" y="620" text-anchor="middle" font-size="16">集齐三类票根</text>
+  <text class="t" x="250" y="400" text-anchor="middle" font-size="15">新增另一类票根</text><text class="t" x="600" y="548" text-anchor="middle" font-size="15">新增第三类票根</text>
+</svg>

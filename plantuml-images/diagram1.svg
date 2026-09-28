@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#f7f4ee"/>
+  <style>.t{font-family:Arial,'PingFang SC';fill:#222}.box{fill:#fff;stroke:#222;stroke-width:2;rx:16}.gold{fill:#fff3c4;stroke:#a87b13}.silver{fill:#edf0f4;stroke:#77808d}.paper{fill:#f3e5cf;stroke:#8d6e4f}.line{stroke:#444;stroke-width:2;fill:none;marker-end:url(#a)}</style>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#444"/></marker></defs>
+  <text class="t" x="600" y="40" text-anchor="middle" font-size="28" font-weight="700">MVP票根生成主流程</text>
+  <rect class="box" x="440" y="65" width="320" height="54"/><text class="t" x="600" y="99" text-anchor="middle" font-size="19">网址访问 → 空壳登录</text>
+  <path class="line" d="M600 119V145"/><rect class="box" x="440" y="145" width="320" height="54"/><text class="t" x="600" y="179" text-anchor="middle" font-size="19">选择并播放内置歌曲</text>
+  <path class="line" d="M600 199V225"/><rect class="box" x="420" y="225" width="360" height="54"/><text class="t" x="600" y="259" text-anchor="middle" font-size="19">点击“点亮声迹地图”</text>
+  <path class="line" d="M600 279V305"/><rect class="box" x="420" y="305" width="360" height="54"/><text class="t" x="600" y="339" text-anchor="middle" font-size="19">选择广东或陕西及票根类型</text>
+  <path class="line" d="M600 359V390H210V415"/><path class="line" d="M600 359V415"/><path class="line" d="M600 359V390H990V415"/>
+  <rect class="box gold" x="75" y="415" width="270" height="78"/><text class="t" x="210" y="447" text-anchor="middle" font-size="19" font-weight="700">烫金票</text><text class="t" x="210" y="473" text-anchor="middle" font-size="15">沿用当前歌曲</text>
+  <rect class="box silver" x="465" y="415" width="270" height="78"/><text class="t" x="600" y="447" text-anchor="middle" font-size="19" font-weight="700">烫银票</text><text class="t" x="600" y="473" text-anchor="middle" font-size="15">上传照片并选择荐歌</text>
+  <rect class="box paper" x="855" y="415" width="270" height="78"/><text class="t" x="990" y="447" text-anchor="middle" font-size="19" font-weight="700">原纸票</text><text class="t" x="990" y="473" text-anchor="middle" font-size="15">沿用当前歌曲</text>
+  <path class="line" d="M210 493V530H600V555"/><path class="line" d="M600 493V555"/><path class="line" d="M990 493V530H600V555"/>
+  <rect class="box" x="390" y="555" width="420" height="62"/><text class="t" x="600" y="583" text-anchor="middle" font-size="19">编辑话语、心情、地点与歌词</text><text class="t" x="600" y="607" text-anchor="middle" font-size="15">生成并保存票根</text>
+  <path class="line" d="M600 617V645"/><rect class="box" x="375" y="645" width="450" height="62"/><text class="t" x="600" y="674" text-anchor="middle" font-size="19">更新地区点亮状态与个人票根列表</text><text class="t" x="600" y="697" text-anchor="middle" font-size="15">查看或保存票根</text>
+</svg>
