@@ -4,8 +4,9 @@ from sqlalchemy.orm import Session, sessionmaker
 from app.core.config import settings
 
 
-connect_args = {"check_same_thread": False} if settings.database_url.startswith("sqlite") else {}
-engine = create_engine(settings.database_url, connect_args=connect_args)
+database_url = settings.sqlalchemy_database_url
+connect_args = {"check_same_thread": False} if database_url.startswith("sqlite") else {}
+engine = create_engine(database_url, connect_args=connect_args, pool_pre_ping=True)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, class_=Session)
 
 
@@ -15,4 +16,3 @@ def get_db():
         yield db
     finally:
         db.close()
-

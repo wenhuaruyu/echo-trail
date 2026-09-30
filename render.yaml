@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: echo-trail-api
+    runtime: python
+    plan: free
+    region: singapore
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: ./start.sh
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: echo-trail-db
+          property: connectionString
+      - key: STORAGE_BACKEND
+        value: cos
+      - key: CORS_ORIGINS
+        value: https://pen-brink-46176790.figma.site
+      - key: COS_SECRET_ID
+        sync: false
+      - key: COS_SECRET_KEY
+        sync: false
+      - key: COS_REGION
+        sync: false
+      - key: COS_BUCKET
+        sync: false
+      - key: COS_PUBLIC_BASE_URL
+        sync: false
+
+databases:
+  - name: echo-trail-db
+    plan: free
+    region: singapore

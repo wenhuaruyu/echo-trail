@@ -1,3 +1,5 @@
+import logging
+import time
 import uuid
 
 from fastapi import FastAPI, Request
@@ -12,6 +14,8 @@ from app.core.errors import AppError
 from app.core.responses import error_response
 from app.services.storage_service import photo_storage
 
+
+logger = logging.getLogger("uvicorn.error")
 
 app = FastAPI(
     title=settings.app_name,
@@ -31,8 +35,17 @@ app.add_middleware(
 @app.middleware("http")
 async def add_request_id(request: Request, call_next):
     request.state.request_id = str(uuid.uuid4())
+    started_at = time.perf_counter()
     response = await call_next(request)
     response.headers["X-Request-ID"] = request.state.request_id
+    logger.info(
+        "%s %s %s %.2fms request_id=%s",
+        request.method,
+        request.url.path,
+        response.status_code,
+        (time.perf_counter() - started_at) * 1000,
+        request.state.request_id,
+    )
     return response
 
 
@@ -59,12 +72,23 @@ async def validation_error_handler(request: Request, exc: RequestValidationError
 
 @app.exception_handler(Exception)
 async def unexpected_error_handler(request: Request, exc: Exception):
-    del exc
+    logger.exception("unexpected error request_id=%s", request.state.request_id, exc_info=True)
     return JSONResponse(
         status_code=500,
         content=error_response("服务器内部错误", "INTERNAL_ERROR", request.state.request_id),
     )
 
 
+@app.get("/", tags=["服务状态"])
+def service_info():
+    return {
+        "name": settings.app_name,
+        "version": app.version,
+        "status": "running",
+        "docs": "/docs",
+    }
+
+
 app.include_router(api_router, prefix=settings.api_v1_prefix)
-app.mount("/media/ticket-photos", StaticFiles(directory=photo_storage.directory), name="ticket-photos")
+if hasattr(photo_storage, "directory"):
+    app.mount("/media/ticket-photos", StaticFiles(directory=photo_storage.directory), name="ticket-photos")

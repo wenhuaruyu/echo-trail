@@ -7,6 +7,7 @@ TEST_DB = Path(__file__).parent / "test_echo_trail.db"
 TEST_MEDIA = Path(__file__).parent / "test_media"
 os.environ["DATABASE_URL"] = "sqlite:///{}".format(TEST_DB)
 os.environ["MEDIA_ROOT"] = str(TEST_MEDIA)
+os.environ["STORAGE_BACKEND"] = "local"
 if TEST_MEDIA.exists():
     shutil.rmtree(TEST_MEDIA)
 

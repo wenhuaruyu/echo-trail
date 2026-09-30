@@ -7,3 +7,5 @@ pytest==8.3.5
 httpx==0.28.1
 python-multipart==0.0.20
 Pillow==11.2.1
+psycopg[binary]==3.2.9
+cos-python-sdk-v5==1.9.38

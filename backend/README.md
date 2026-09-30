@@ -1,6 +1,6 @@
 # 寻声觅迹后端
 
-这是“寻声觅迹 ECHO TRAIL”黑客松MVP的后端服务。目前已完成匿名身份、歌曲、歌词、省份、播放记录和三类票根核心闭环。
+这是“寻声觅迹 ECHO TRAIL”黑客松MVP的后端服务。目前已完成匿名身份、歌曲、歌词、省份、播放记录、三类票根核心闭环和云端部署适配。
 
 ## 1. 环境要求
 
@@ -142,6 +142,15 @@ Authorization: Bearer <access_token>
 - 重新编码会移除EXIF及GPS元数据。
 - 文件名由后端随机生成，上传目录不会提交到Git。
 - 烫银票只接受本服务上传并且仍然存在的图片地址。
-- 本地图片存储适用于开发；第六阶段部署时再决定是否切换对象存储。
+- 本地开发默认使用本地图片目录，线上通过环境变量切换为腾讯云COS。
+
+## 10. 第六阶段部署适配
+
+- 根目录`render.yaml`定义Render Web Service和PostgreSQL。
+- `start.sh`会在启动时执行数据库迁移和演示数据初始化。
+- `DATABASE_URL`可以使用Render提供的PostgreSQL连接地址。
+- `STORAGE_BACKEND=local`使用本地图片，`STORAGE_BACKEND=cos`使用腾讯云COS。
+- COS密钥只通过Render环境变量提供，不写入Git。
+- 完整的零基础操作步骤见[docs/render-deployment.md](docs/render-deployment.md)。
 
 前端未来接入时参考：[docs/frontend-integration.md](docs/frontend-integration.md)。
