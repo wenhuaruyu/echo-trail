@@ -201,6 +201,32 @@ def test_ticket_list_filters_pagination_and_user_isolation(client):
     assert other_list["total"] == 0
 
 
+def test_delete_ticket_requires_owner_and_recalculates_lighting(client):
+    headers = create_identity(client)
+    other_headers = create_identity(client)
+    song, lyric = get_song_with_lyric(client, headers)
+    event_id = record_play(client, headers, song["id"])
+    created = client.post(
+        "/api/v1/tickets",
+        headers=headers,
+        json=ticket_payload(song, lyric, event_id),
+    ).json()["data"]["ticket"]
+
+    forbidden = client.delete(
+        "/api/v1/tickets/{}".format(created["id"]), headers=other_headers
+    )
+    assert forbidden.status_code == 404
+
+    deleted = client.delete(
+        "/api/v1/tickets/{}".format(created["id"]), headers=headers
+    )
+    assert deleted.status_code == 200
+    assert deleted.json()["data"]["province_lighting"]["lighting_status"] == "unlit"
+    assert client.get(
+        "/api/v1/tickets/{}".format(created["id"]), headers=headers
+    ).status_code == 404
+
+
 def test_silver_recommendations_are_demo_data(client, auth_headers):
     song, _ = get_song_with_lyric(client, auth_headers)
     response = client.get(

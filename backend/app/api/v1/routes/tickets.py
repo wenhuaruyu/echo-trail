@@ -8,7 +8,7 @@ from app.db.session import get_db
 from app.models.user import User
 from app.repositories.ticket_repository import get_user_ticket, list_user_tickets
 from app.schemas.ticket import TicketCreate
-from app.services.ticket_service import create_ticket, serialize_ticket
+from app.services.ticket_service import create_ticket, delete_ticket, serialize_ticket
 from app.services.statistics_service import get_resonance
 
 
@@ -78,3 +78,18 @@ def get_ticket_detail(
     if ticket is None:
         raise AppError(404, "TICKET_NOT_FOUND", "票根不存在")
     return success_response(serialize_ticket(ticket), current_request_id)
+
+
+@router.delete("/{ticket_id}")
+def delete_user_ticket(
+    ticket_id: str,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+    current_request_id: str = Depends(request_id),
+):
+    province_lighting = delete_ticket(db, user, ticket_id)
+    return success_response(
+        {"ticket_id": ticket_id, "province_lighting": province_lighting},
+        current_request_id,
+        "票根已删除",
+    )

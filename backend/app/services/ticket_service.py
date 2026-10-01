@@ -12,6 +12,7 @@ from app.repositories.province_repository import get_province
 from app.repositories.song_repository import get_song
 from app.repositories.ticket_repository import (
     get_by_idempotency_key,
+    get_user_ticket,
     province_ticket_stats,
     ticket_number_exists,
 )
@@ -154,3 +155,13 @@ def create_ticket(
     db.refresh(ticket)
     stats = province_ticket_stats(db, user.id, province.code)
     return ticket, stats, True
+
+
+def delete_ticket(db: Session, user: User, ticket_id: str) -> Dict[str, object]:
+    ticket = get_user_ticket(db, user.id, ticket_id)
+    if ticket is None:
+        raise AppError(404, "TICKET_NOT_FOUND", "票根不存在")
+    province_code = ticket.province_code
+    db.delete(ticket)
+    db.commit()
+    return province_ticket_stats(db, user.id, province_code)

@@ -9,7 +9,9 @@ class Settings(BaseSettings):
     app_env: str = "development"
     database_url: str = "sqlite:///./echo_trail.db"
     api_v1_prefix: str = "/api/v1"
-    cors_origins: str = "http://localhost:3000,http://localhost:5173"
+    cors_origins: str = (
+        "http://localhost:3000,http://localhost:5173,http://127.0.0.1:5173"
+    )
     media_root: str = "./media"
     public_base_url: str = "http://127.0.0.1:8000"
     storage_backend: str = "local"
