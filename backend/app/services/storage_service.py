@@ -53,7 +53,7 @@ class LocalPhotoStorage:
         path = self.directory / filename
         path.write_bytes(encoded)
         return {
-            "photo_url": "{}{}{}".format(self.settings.public_base_url.rstrip("/"), PHOTO_PATH, filename),
+            "photo_url": "{}{}{}".format(self.settings.effective_public_base_url, PHOTO_PATH, filename),
             "width": width,
             "height": height,
             "format": "webp",
@@ -61,7 +61,7 @@ class LocalPhotoStorage:
         }
 
     def owns_photo_url(self, photo_url: str) -> bool:
-        prefix = "{}{}".format(self.settings.public_base_url.rstrip("/"), PHOTO_PATH)
+        prefix = "{}{}".format(self.settings.effective_public_base_url, PHOTO_PATH)
         if not photo_url.startswith(prefix):
             return False
         filename = photo_url[len(prefix):]

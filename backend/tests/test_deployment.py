@@ -44,6 +44,12 @@ def test_render_postgres_url_uses_psycopg_driver():
     assert configured.sqlalchemy_database_url == "postgresql+psycopg://user:password@host/db"
 
 
+def test_render_external_url_is_used_for_local_media(monkeypatch):
+    monkeypatch.setenv("RENDER_EXTERNAL_URL", "https://echo-trail-api.onrender.com/")
+    configured = Settings(_env_file=None, app_env="production")
+    assert configured.effective_public_base_url == "https://echo-trail-api.onrender.com"
+
+
 def test_cos_storage_uploads_and_owns_generated_photo():
     fake_client = FakeCosClient()
     storage = CosPhotoStorage(cos_settings(), client=fake_client)

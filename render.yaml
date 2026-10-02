@@ -16,18 +16,10 @@ services:
           name: echo-trail-db
           property: connectionString
       - key: STORAGE_BACKEND
-        value: cos
+        value: local
+      - key: MEDIA_ROOT
+        value: /tmp/echo-trail-media
       - key: CORS_ORIGINS
-        sync: false
-      - key: COS_SECRET_ID
-        sync: false
-      - key: COS_SECRET_KEY
-        sync: false
-      - key: COS_REGION
-        sync: false
-      - key: COS_BUCKET
-        sync: false
-      - key: COS_PUBLIC_BASE_URL
         sync: false
 
 databases:

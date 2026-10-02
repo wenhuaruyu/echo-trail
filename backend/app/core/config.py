@@ -1,4 +1,5 @@
 from functools import lru_cache
+import os
 from typing import List
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -33,6 +34,14 @@ class Settings(BaseSettings):
     @property
     def max_upload_size_bytes(self) -> int:
         return self.max_upload_size_mb * 1024 * 1024
+
+    @property
+    def effective_public_base_url(self) -> str:
+        if self.app_env == "production":
+            render_url = os.getenv("RENDER_EXTERNAL_URL", "").strip()
+            if render_url:
+                return render_url.rstrip("/")
+        return self.public_base_url.rstrip("/")
 
     @property
     def sqlalchemy_database_url(self) -> str:
