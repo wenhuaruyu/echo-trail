@@ -29,7 +29,10 @@ def test_song_list_and_lyrics(client, auth_headers):
     response = client.get("/api/v1/songs?province_code=guangdong", headers=auth_headers)
     assert response.status_code == 200
     songs = response.json()["data"]["items"]
-    assert len(songs) == 4
+    assert len(songs) == 8
+    assert {song["title"] for song in songs}.issuperset(
+        {"海阔天空", "成都", "董小姐", "理想三旬", "斑马斑马"}
+    )
     assert all("guangdong" in song["province_codes"] for song in songs)
 
     song_id = songs[0]["id"]
@@ -59,4 +62,3 @@ def test_not_found_errors(client, auth_headers):
     province_response = client.get("/api/v1/provinces/not-found", headers=auth_headers)
     assert province_response.status_code == 404
     assert province_response.json()["error_code"] == "PROVINCE_NOT_FOUND"
-
