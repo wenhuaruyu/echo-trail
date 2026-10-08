@@ -32,7 +32,9 @@ def process_image(content: bytes, app_settings: Settings = settings) -> Tuple[by
             image = image.convert("RGB")
             image.thumbnail((app_settings.max_image_edge, app_settings.max_image_edge), Image.Resampling.LANCZOS)
             output = BytesIO()
-            image.save(output, format="WEBP", quality=85, method=6, exif=b"")
+            # Method 4 keeps good ticket-photo quality while avoiding the much
+            # slower maximum-effort WebP encode on small cloud instances.
+            image.save(output, format="WEBP", quality=82, method=4, exif=b"")
             width, height = image.size
     except AppError:
         raise
