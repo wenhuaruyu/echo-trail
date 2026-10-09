@@ -1,0 +1,7 @@
+{
+  "envId": "wenhuaruyu-d5gptrfx6908a5cc6",
+  "$schema": "https://static.cloudbase.net/cli/cloudbaserc.schema.json",
+  "cloudrun": {
+    "name": "echo-trail-api"
+  }
+}
